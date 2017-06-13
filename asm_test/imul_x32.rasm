@@ -1,0 +1,9 @@
+.arch x86.nasm
+.bits 32
+
+patch:
+    xor eax, eax
+    xor ebx, ebx
+    mov eax, 0xdffe43f5
+    mov ebx, 0xeffe4332
+    imul eax, ebx
