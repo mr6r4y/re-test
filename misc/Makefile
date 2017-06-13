@@ -1,4 +1,4 @@
-all: empty_main empty_main_pic empty_main_gdb init_array hook start_nostdlib t.bin hook_pic hook_pic_x86 hook_x86 scan_x86 scan strcpy_crash strcpy_crash_x86 callee_params callee_params_x86 ret_val ret_val_x86 goto1 goto1_x86 condjmp condjmp_x86 loop1 loop1_x86 memcp memcp_x86 switch1 switch1_x86 switch2 switch2_x86 switch3 switch3_x86 is_whitespace is_whitespace_x86
+all: empty_main empty_main_pic empty_main_gdb init_array hook start_nostdlib hook_pic hook_pic_x86 hook_x86 scan_x86 scan strcpy_crash strcpy_crash_x86 callee_params callee_params_x86 ret_val ret_val_x86 goto1 goto1_x86 condjmp condjmp_x86 loop1 loop1_x86 memcp memcp_x86 switch1 switch1_x86 switch2 switch2_x86 switch3 switch3_x86 is_whitespace is_whitespace_x86
 
 empty_main: empty_main.c
 	gcc -o $@ $^
@@ -39,9 +39,6 @@ strcpy_crash_x86: strcpy_crash.c
 
 strcpy_crash: strcpy_crash.c
 	gcc -o $@ $^
-
-t.bin: t.rasm
-	rasm2 -Bf t.rasm -O t.bin
 
 callee_params: callee_params.c
 	gcc -o $@ $^
@@ -104,7 +101,7 @@ is_whitespace_x86: is_whitespace.c
 	gcc -m32 -o $@ $^
 
 clean:
-	rm empty_main empty_main_pic empty_main_gdb init_array hook start_nostdlib t.bin hook_pic hook_pic_x86 hook_x86 scan_x86 scan strcpy_crash strcpy_crash_x86 callee_params callee_params_x86 ret_val ret_val_x86 goto1 goto1_x86 condjmp condjmp_x86 loop1 loop1_x86 memcp memcp_x86 switch1 switch1_x86 switch2 switch2_x86 switch3 switch3_x86 is_whitespace is_whitespace_x86
+	rm empty_main empty_main_pic empty_main_gdb init_array hook start_nostdlib hook_pic hook_pic_x86 hook_x86 scan_x86 scan strcpy_crash strcpy_crash_x86 callee_params callee_params_x86 ret_val ret_val_x86 goto1 goto1_x86 condjmp condjmp_x86 loop1 loop1_x86 memcp memcp_x86 switch1 switch1_x86 switch2 switch2_x86 switch3 switch3_x86 is_whitespace is_whitespace_x86
 
 
 .PHONY: clean all
