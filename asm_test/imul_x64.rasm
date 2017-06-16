@@ -1,9 +1,8 @@
 .arch x86.nasm
 .bits 64
 
-patch:
-    xor rax, rax
-    xor rbx, rbx
-    mov rax, 0xdfffff23b46e43f5
-    mov rbx, 0xefffff23b46e4332
-    imul rax, rbx
+xor rax, rax
+xor rbx, rbx
+mov rax, 0xdfffff23b46e43f5
+mov rbx, 0xefffff23b46e4332
+imul rax, rbx
