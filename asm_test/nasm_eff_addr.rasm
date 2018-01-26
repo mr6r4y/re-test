@@ -7,13 +7,15 @@ nop
 nop
 nop
 
-wordvar:
+.equ varequ 13
+var:
     dd 0x123
 
-mov ax, [word wordvar]
-mov ax, [wordvar]
-mov ax, [wordvar+1]
-mov ax, [es:wordvar+bx]
+mov ax, [word var]
+mov ax, [var]
+mov ax, [varequ]
+mov ax, [var+1]
+mov ax, [es:var+bx]
 
 
 

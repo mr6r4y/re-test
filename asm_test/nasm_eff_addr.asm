@@ -4,13 +4,12 @@ nop
 nop
 nop
 
-wordvar:
+varequ equ 13
+var:
     dd 0x123
 
-mov ax, [dword wordvar]
-mov ax, [wordvar]
-mov ax, [wordvar+1]
-mov ax, [es:wordvar+bx]
-
-
-
+mov ax, [word var]
+mov ax, [var]
+mov ax, [varequ]
+mov ax, [var+1]
+mov ax, [es:var+bx]
