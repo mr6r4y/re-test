@@ -22,7 +22,7 @@ rasm_example.bin: rasm_example.rasm
 	rasm2 -Bf $^ -O $@
 
 nasm_eff_addr.rasm.asm:
-	rasm2 -D $(rasm2 -f nasm_eff_addr.rasm) > nasm_eff_addr.rasm.asm
+	rasm2 -f nasm_eff_addr.rasm | xargs rasm2 -D > nasm_eff_addr.rasm.asm
 
 nasm_eff_addr:
 	nasm -fbin nasm_eff_addr.asm
