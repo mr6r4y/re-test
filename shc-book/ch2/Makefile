@@ -8,9 +8,11 @@ overflow.x64:
 
 overflow.x86.no:
 	gcc -m32 -fno-stack-protector -mpreferred-stack-boundary=2 -o overflow.x86.no overflow.c
+	execstack -s overflow.x86.no
 
 overflow.x64.no:
 	gcc -fno-stack-protector -o overflow.x64.no overflow.c
+	execstack -s overflow.x64.no
 
 victim.x86:
 	gcc -m32 -o victim.x86 victim.c
