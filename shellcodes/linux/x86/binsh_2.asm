@@ -11,7 +11,7 @@ loc_b:
     lea ebx, [esi]                 ; 0x00000008   2   8d1e
     mov dword [esi + 8], ebx       ; 0x0000000a   3   895e08
     mov dword [esi + 0xc], eax     ; 0x0000000d   3   89460c
-    mov al, 0xb                    ; 0x00000010   2   b00b
+    mov al, 0xb                    ; 0x00000010   2   b00b   ; __NR_execve
     mov ebx, esi                   ; 0x00000012   2   89f3
     lea ecx, [esi + 8]             ; 0x00000014   3   8d4e08
     lea edx, [esi + 0xc]           ; 0x00000017   3   8d560c
