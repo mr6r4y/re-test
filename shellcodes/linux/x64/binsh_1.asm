@@ -1,6 +1,8 @@
 .arch x86
 .bits 64
 
+; total: 18 bytes
+
 jmp 0xd         ; 0x00000000   2          eb0b
 pop rdi         ; 0x00000002   1            5f
 xor rdx, rdx    ; 0x00000003   3        4831d2
