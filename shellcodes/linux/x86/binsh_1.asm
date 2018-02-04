@@ -1,5 +1,7 @@
-.arch x86
+.arch x86.nasm
 .bits 32
+
+; total: 24 bytes
 
 xor eax, eax            ; 0x00000000   2           31c0
 cdq                     ; 0x00000002   1             99
