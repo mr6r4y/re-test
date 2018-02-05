@@ -1,8 +1,8 @@
-.arch x86.nasm
-.bits 32
-
 ; total: 40 bytes
 
+bits 32
+
+_start:
     jmp short loc_a                ; 0x00000000   2   eb1a
 loc_b:
     pop esi                        ; 0x00000002   1   5e

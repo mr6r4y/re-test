@@ -1,10 +1,10 @@
 all: binsh_1 binsh_2
 
 binsh_1:
-	rasm2 -B -f binsh_1.asm -O binsh_1
+	nasm -o binsh_1 binsh_1.asm
 
 binsh_2:
-	rasm2 -B -f binsh_2.asm -O binsh_2
+	nasm -o binsh_2 binsh_2.asm
 
 clean:
 	rm binsh_1 binsh_2
