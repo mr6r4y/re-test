@@ -18,5 +18,4 @@ loc_b:
     int 0x80                       ; 0x0000001a   2   cd80
 loc_a:
     call loc_b                     ; 0x0000001c   5   e8e1ffffff
-
-db '/bin/sh'                       ; 0x00000021   7
+    db '/bin/sh'                   ; 0x00000021   7

