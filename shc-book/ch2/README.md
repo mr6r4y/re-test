@@ -20,6 +20,8 @@
 
     ./overflow.x86.no < <(python exploit.py -r 0xffffd548)
 
+    python exploit.py -r 0xffffd558 | ./overflow.x86.no
+
 # `victim.x86.no`
 
 ## Shell session
