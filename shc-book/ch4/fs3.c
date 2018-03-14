@@ -6,6 +6,6 @@ int main(int argv,char **argc) {
 	int *plen=(int*)malloc(sizeof(int));
 	char buf[256];
 
-	strcpy(buf,argc[1]);
+	strcpy(buf, argc[1]);
 	printf(buf);
 }

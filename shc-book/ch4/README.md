@@ -22,6 +22,12 @@ The last argument dumps the `6161..` beginning of the format string:
 
     fs3 "aaaaaaaa %llx %llx %llx %llx %llx %llx %llx %llx %llx %llx"
 
+    python -c "import explt as a;a.param_bf('./fs2', 50)"
+
+    run "$(python -c 'import explt as a;a.a1()')"
+
+    vfprintf.c, line 2022
+
 
 ## References
 
