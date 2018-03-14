@@ -24,9 +24,13 @@ The last argument dumps the `6161..` beginning of the format string:
 
     python -c "import explt as a;a.param_bf('./fs2', 50)"
 
-    run "$(python -c 'import explt as a;a.a1()')"
+    run "$(python -c 'import explt as a;a.pld_2(10)')"
+
+    run "$(python -c 'import explt as a;a.param_enum(50)')"
 
     vfprintf.c, line 2022
+
+    objdump -dr -j .fini_array ./fs3
 
 
 ## References

