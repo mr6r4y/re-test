@@ -56,11 +56,3 @@ def pld_write(i, a=0xdeadbeeffeeddada, p64=True):
 
 def pld_2(i, a=0xdeadbeeffeeddada, p64=True):
     p(pld_write(i, a, p64))
-
-
-def main():
-    pass
-
-
-if __name__ == '__main__':
-    main()
