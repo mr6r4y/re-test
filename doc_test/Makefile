@@ -13,6 +13,6 @@ hello.docx: hello.tex
 	pandoc $^ -o $@
 
 clean:
-	rm -f hello.pdf hello.pandoc.pdf *.log *.aux
+	rm -f hello.pdf hello.pandoc.pdf *.docx *.odt *.log *.aux
 
 .PHONY: all clean
