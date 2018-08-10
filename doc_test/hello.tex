@@ -1,5 +1,7 @@
 \documentclass{article}
+
 \usepackage{amsmath}
+\usepackage{graphicx}
 
 \title{Title of my document}
 \date{2013-09-01}
@@ -10,8 +12,11 @@
 \begin{document}
 
 \maketitle
+
 \pagenumbering{gobble}
+
 \newpage
+
 \pagenumbering{arabic}
 
 \section{Section}
@@ -35,10 +40,11 @@ Some more text.
 Even more text. This formula $f(x) = x^2$ is an example.
 
 \section{Another section}
+Fig \ref{figure:boat1} shows a boat.
 
 
 \begin{equation*}
-  1 + 2 = 3 
+  1 + 2 = 3
 \end{equation*}
 
 \begin{equation*}
@@ -70,5 +76,10 @@ Even more text. This formula $f(x) = x^2$ is an example.
   f(x) = x^2
 \end{equation}
 
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{boat.png}
+  \caption{A boat}
+  \label{figure:boat1}
+\end{figure}
 
 \end{document}
