@@ -131,10 +131,10 @@ def gcd(a, b):
     return b
 
 
-def search_modinv(a, m):
+def modinv(a, m):
     """Search for modular inverse of `a` and `m`
 
-    The search is done by brute-forsing.
+    Uses Extended Euclidean algorithm.
 
     Args:
         a (int)
