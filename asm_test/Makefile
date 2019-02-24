@@ -1,4 +1,4 @@
-all: patchme patchme_x86 patchme_nostd patchme_nostd_x86 imul_x64.bin imul_x32.bin boot nasm_eff_addr.rasm.asm nasm_eff_addr
+all: patchme patchme_x86 patchme_nostd patchme_nostd_x86 imul_x64.bin imul_x32.bin boot nasm_eff_addr.rasm.asm nasm_eff_addr test_inln_constr
 
 patchme: patchme.c
 	gcc -o $@ $^
@@ -30,8 +30,11 @@ nasm_eff_addr:
 boot:
 	nasm -f bin boot.asm # && qemu-system-x86_64 boot
 
+test_inln_constr: test_inln_constr.c
+	gcc $^ -o $@ -no-pie
+
 clean:
-	rm patchme patchme_x86 patchme_nostd patchme_nostd_x86 imul_x64.bin imul_x32.bin boot nasm_eff_addr.rasm.asm nasm_eff_addr
+	rm -f patchme patchme_x86 patchme_nostd patchme_nostd_x86 imul_x64.bin imul_x32.bin boot nasm_eff_addr.rasm.asm nasm_eff_addr test_inln_constr
 
 
 .PHONY: clean all
