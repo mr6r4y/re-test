@@ -6,6 +6,9 @@ Collection of crypto functions while working on Cracking Codes with Python.
 
 import string
 import math
+import random
+from functools import reduce
+import enchant
 
 
 BG_ALPHABET = "абвгдежзийклмнопрстуфцчшщъьюя"
@@ -160,15 +163,91 @@ def modinv(a, m):
     return u1 % m
 
 
-def enc_affine(msg, key1, key2):
-    """
-    """
-
+class AffineError(Exception):
     pass
 
 
-def dec_affine(cipher, key1, key2):
-    """
+class Affine(object):
+    """Affine cipher class
+
+    Handles encryption, decryption and key generation.
     """
 
-    pass
+    def __init__(self, alphabet):
+        self.alphabet = alphabet
+        self.alphabet_len = len(alphabet)
+
+    def _split_key(self, key):
+        k1, k2 = key // self.alphabet_len, key % self.alphabet_len
+
+        return k1, k2
+
+    def check_key(self, key):
+        k1, k2 = self._split_key(key)
+        return (gcd(k1, self.alphabet_len) == 1) and (k1 != 1) and (k2 != 0)
+
+    def generate_key(self):
+        while True:
+            k1, k2 = random.randint(2, self.alphabet_len), random.randint(2, self.alphabet_len)
+            key = k1 * self.alphabet_len + k2
+            if self.check_key(key):
+                return key
+
+    def encrypt(self, msg, key):
+        if not self.check_key(key):
+            raise AffineError("Weak key")
+
+        k1, k2 = self._split_key(key)
+        cipher = []
+
+        for c in msg:
+            if c in self.alphabet:
+                i = self.alphabet.find(c)
+                c = self.alphabet[(i * k1 + k2) % self.alphabet_len]
+            cipher.append(c)
+
+        return "".join(cipher)
+
+    def decrypt(self, cipher, key):
+        if not self.check_key(key):
+            raise AffineError("Weak key")
+
+        k1, k2 = self._split_key(key)
+        k1_inverse = search_modinv(k1, self.alphabet_len)
+
+        msg = []
+
+        for c in cipher:
+            if c in self.alphabet:
+                i = self.alphabet.find(c)
+                c = self.alphabet[(i - k2) * k1_inverse % self.alphabet_len]
+            msg.append(c)
+
+        return "".join(msg)
+
+
+def is_speach(sentence, lang="en_US"):
+    def _truth_ratio(a):
+        b = map(lambda x: 1 if x else 0, a)
+        return reduce(lambda x, y: x + y, b, 0) / len(a)
+
+    spell_checker = enchant.Dict(lang)
+    words = [w.strip(string.punctuation + " ") for w in sentence.split(" ")]
+
+    # Spell check every word and take a True ratio
+    return _truth_ratio([(spell_checker.check(i.lower()) if i else False) for i in words]) > 0.7
+
+
+def crack_affine(cipher, alphabet):
+    l = len(alphabet)
+    a = Affine(alphabet)
+
+    keys = []
+    for i in range(l ** 2):
+        if not a.check_key(i):
+            continue
+        msg = a.decrypt(cipher, i)
+        if is_speach(msg):
+            keys.append(i)
+
+    return keys
