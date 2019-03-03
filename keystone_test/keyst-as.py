@@ -5,6 +5,7 @@ import argparse
 import keystone
 import sys
 import re
+from hexdump import hexdump
 
 
 def get_args():
@@ -67,20 +68,21 @@ def main():
     code = open(args.input_file, "r").read()
     a = Assembler(code)
 
-    print("Compiled code:")
-    print("--------------")
-    for i in a.pcode:
-        print("    " + i)
-    print("--------------")
+    # print("Compiled code:")
+    # print("--------------")
+    # for i in a.pcode:
+    #     print("    " + i)
+    # print("--------------")
 
     encs, count = a.asm(args.arch, args.mode)
 
     print()
     print("Instruction count: %i" % count)
     print()
-    print("Binary:\n%s" % (" ".join([("%x" % i) for i in encs])))
+    print("Binary:\n")
+    hexdump(bytes(encs))
     print()
-    print("String Payload:\n%s" % repr(bytes(encs)))
+    print("String Payload:\n\n%s" % repr(bytes(encs)))
     print()
     print("Binary Size: %i" % len(encs))
 
