@@ -30,9 +30,9 @@ def assemble_as(asmcode):
     fln_x = "/tmp/tmp-as.x"
     fln_b = "/tmp/tmp-as.b"
     open(fln, 'w').write(".section .text\n.global _start\n" + "\n".join(code))
-    sb.Popen(["arm-linux-gnueabi-as", fln, "-o", fln_o]).wait()
-    sb.Popen(["arm-linux-gnueabi-ld", "-N", fln_o, "-o", fln_x]).wait()
-    sb.Popen(["arm-linux-gnueabi-objcopy", "-O", "binary", fln_x, fln_b]).wait()
+    sb.Popen(["as", fln, "-o", fln_o]).wait()
+    sb.Popen(["ld", "-N", fln_o, "-o", fln_x]).wait()
+    sb.Popen(["objcopy", "-O", "binary", fln_x, fln_b]).wait()
 
     return open(fln_b, "rb").read()
 
@@ -52,7 +52,7 @@ def main():
     print("Binary Size: %i" % len(rawbin))
 
     if args.output_file:
-        open(args.output_file, "wb").write(rawbin)
+        open(args.output_file, "w").write(rawbin)
 
 
 if __name__ == '__main__':
