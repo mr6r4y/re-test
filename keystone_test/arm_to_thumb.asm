@@ -1,10 +1,10 @@
 _start:
-    .ARM
+    .arm
     adr r0, _second  ; using the pseudo-instruction `adr` translated into `add    r0,  pc,  #12`
 _again:
     bx r0
 ; test a label in the middle of a thumb block
-    .THUMB
+    .thumb
     mov r2, #16
     add r7, #1
 _third:
@@ -13,7 +13,7 @@ _third:
 ; test a label in the middle of the arm block
     blx _again
 _second:
-    .ARM
+    .arm
     add r3, r1, #1
     blx _third
     nop

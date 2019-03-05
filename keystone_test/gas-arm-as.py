@@ -4,6 +4,7 @@
 import argparse
 import subprocess as sb
 from hexdump import hexdump
+import shutil
 
 
 def get_args():
@@ -48,6 +49,9 @@ def main():
     hexdump(rawbin)
     print()
     print("String Payload:\n\n%s" % repr(rawbin))
+    print()
+    print("Generating ELF..")
+    shutil.copy("/tmp/tmp-as.x", args.input_file.split(".")[0] + ".gas")
     print()
     print("Binary Size: %i" % len(rawbin))
 

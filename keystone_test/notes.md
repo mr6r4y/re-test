@@ -217,6 +217,10 @@ Test for x86 code. Add AT&T syntax sample.
 
 Fix `re-test/keystone_test/keyst-as.py` to be able to `|` multiple modes set from command line.
 
-### 6
+### 6 ✓
 
 Make test-bed for Keystone payloads in custom ELF compiled with `nop` sled and automate making it.
+
+### 6.1
+
+Resolve the mystery of the difference between `arm_to_thumb.gas` vs `arm_to_thumb.keyst` and the `0x10070 <_start+28>      blx    0x10070 <_start+28>` instruction in `arm_to_thumb.keyst`.

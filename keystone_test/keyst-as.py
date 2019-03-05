@@ -6,21 +6,75 @@ import keystone
 import sys
 import re
 from hexdump import hexdump
+import subprocess
+from mako.template import Template
+import tempfile
+import os
 
 
 def get_args():
     parser = argparse.ArgumentParser(description="Assemble a file using Keystone-engine")
     parser.add_argument("input_file", help="File to assemble")
     parser.add_argument("-o", "--output-file", help="Output into binary file")
-    parser.add_argument("-a", "--arch", help="Set architecture",
-                        choices=["arm", "arm64", "mips", "x86", "ppc", "sparc", "systemz", "hexagon", "max"],
-                        default="x86")
-    parser.add_argument("-m", "--mode", help="Set mode",
-                        choices=["little_endian", "big_endian", "arm", "thumb", "v8", "micro", "mips3", "mips32r6",
-                                 "mips32", "mips64", "16", "32", "64", "ppc32", "ppc64", "qpx", "sparc32", "sparc64", "v9"],
-                        default="64")
+    # parser.add_argument("-a", "--arch", help="Set architecture",
+    #                     choices=["arm", "arm64", "mips", "x86", "ppc", "sparc", "systemz", "hexagon", "max"],
+    #                     default="x86")
+    # parser.add_argument("-m", "--mode", help="Set mode",
+    #                     choices=["little_endian", "big_endian", "arm", "thumb", "v8", "micro", "mips3", "mips32r6",
+    #                              "mips32", "mips64", "16", "32", "64", "ppc32", "ppc64", "qpx", "sparc32", "sparc64", "v9"],
+    #                     default="64")
 
     return parser.parse_args()
+
+
+class ElfGenerator(object):
+    def __init__(self, code_encs, filename):
+        l = len(code_encs)
+        # self._compile_c_template(l, filename)
+        self._compile_as_template(l, filename)
+        self._patch_elf(filename, code_encs)
+
+    @staticmethod
+    def _compile_c_template(nop_count, filename):
+        mako_tpl = """int _start()
+{
+% for i in range(nop_count):
+    __asm__("nop");
+% endfor
+}
+"""
+        c_file = filename + ".keyst.c"
+        open(c_file, "w").write(Template(mako_tpl).render(nop_count=nop_count))
+        subprocess.Popen(["arm-linux-gnueabi-gcc", "-nostdlib", "-o", filename, c_file]).wait()
+        os.unlink(c_file)
+
+    @staticmethod
+    def _compile_as_template(nop_count, filename):
+        as_file = filename + ".keyst.asm"
+        o_file = filename + ".keyst.o"
+
+        mako_tpl = """.section .text
+.global _start
+_start:
+% for i in range(nop_count):
+nop
+% endfor
+"""
+        open(as_file, "w").write(Template(mako_tpl).render(nop_count=nop_count))
+        subprocess.Popen(["arm-linux-gnueabi-as", as_file, "-o", o_file]).wait()
+        subprocess.Popen(["arm-linux-gnueabi-ld", "-N", o_file, "-o", filename]).wait()
+
+        os.unlink(as_file)
+        os.unlink(o_file)
+
+    @staticmethod
+    def _patch_elf(exec_file, code_encs):
+        payload = "".join([("%02x" % i) for i in code_encs])
+
+        r2_script = exec_file + "_patch.r2"
+        open(r2_script, "w").write("s entry0; wx %s\n" % payload)
+        subprocess.Popen(["r2", "-w", "-q", "-i", r2_script, exec_file]).wait()
+        os.unlink(r2_script)
 
 
 class Assembler(object):
@@ -54,12 +108,15 @@ class Assembler(object):
 
     def asm(self, arch, mode):
         try:
-            # Initialize engine in X86-32bit mode
             ks = keystone.Ks(self._arch(arch), self._mode(mode))
             return ks.asm("\n".join(self.pcode))
         except keystone.KsError as e:
             print("ERROR: %s" % e)
             sys.exit(1)
+
+    @staticmethod
+    def make_elf(encs):
+        pass
 
 
 def main():
@@ -68,13 +125,13 @@ def main():
     code = open(args.input_file, "r").read()
     a = Assembler(code)
 
-    # print("Compiled code:")
-    # print("--------------")
-    # for i in a.pcode:
-    #     print("    " + i)
-    # print("--------------")
+    print("Compiled code:")
+    print("--------------")
+    for i in a.pcode:
+        print("    " + i)
+    print("--------------")
 
-    encs, count = a.asm(args.arch, args.mode)
+    encs, count = a.asm("arm", "arm")
 
     print()
     print("Instruction count: %i" % count)
@@ -83,6 +140,13 @@ def main():
     hexdump(bytes(encs))
     print()
     print("String Payload:\n\n%s" % repr(bytes(encs)))
+    print()
+    print()
+    print("String Payload for r2:\n\n%s" % ("".join([("%02x" % i) for i in encs])))
+    print()
+    print()
+    print("Generating ELF..")
+    ElfGenerator(encs, args.input_file.split(".")[0] + ".keyst")
     print()
     print("Binary Size: %i" % len(encs))
 
