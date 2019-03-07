@@ -1,0 +1,22 @@
+gcc_command = "gcc -o $TARGET $CCFLAGS $SOURCES"
+rasm2_command = "rasm2 -Bf $SOURCES -O $TARGET"
+rasm2_format_asm_command = "rasm2 -f $SOURCES | xargs rasm2 -D > $TARGET"
+nasm_command = "nasm -fbin -o $TARGET $SOURCES"
+
+Command("patchme", "patchme.c", gcc_command)
+Command("patchme_x86", "patchme.c", gcc_command, CCFLAGS='-m32')
+Command("patchme_nostd", "patchme_nostd.c", gcc_command, CCFLAGS="-nostdlib")
+Command("patchme_nostd_x86", "patchme_nostd.c", gcc_command, CCFLAGS="-m32 -nostdlib")
+
+Command("imul_x64.bin", "imul_x64.rasm", rasm2_command)
+Command("imul_x32.bin", "imul_x32.rasm", rasm2_command)
+Command("rasm_example.bin", "rasm_example.rasm", rasm2_command)
+
+Command("test_inln_constr", "test_inln_constr.c", gcc_command, CCFLAGS="-no-pie")
+
+
+Command("nasm_eff_addr.rasm.asm", "nasm_eff_addr.rasm", rasm2_format_asm_command)
+Command("nasm_eff_addr", "nasm_eff_addr.asm", nasm_command)
+
+# qemu-system-x86_64 boot
+Command("boot", "boot.asm", nasm_command)
