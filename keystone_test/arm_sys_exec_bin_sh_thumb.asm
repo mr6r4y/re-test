@@ -1,3 +1,4 @@
+.thumb
 _start:
     ; ldr r0, #0x6e69622f       ; 'nib/' ; can't handle bytes in str
     str r0, [sp]
@@ -10,3 +11,5 @@ _start:
     mov r7, #59   ; no syscall constants in keystone, must borrow preprocessor from cemu
     svc #0
     wfi
+
+
