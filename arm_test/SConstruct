@@ -1,0 +1,22 @@
+import os
+
+arm_env_opts = {
+    "AS": "arm-linux-gnueabi-as",
+    "CC": "arm-linux-gnueabi-gcc",
+    "CXX": "arm-linux-gnueabi-g++",
+    "LD": "arm-linux-gnueabi-ld",
+    "AR": "arm-linux-gnueabi-ar",
+    "STRIP": "arm-linux-gnueabi-strip",
+    "OBJCOPY": "arm-linux-gnueabi-objcopy",
+    "PATH": os.environ['PATH']
+}
+
+ld_command = "$LD $LINKFLAGS -o $TARGET $SOURCES"
+arm_env = Environment(**arm_env_opts)
+write_x = arm_env.Command("write", arm_env.Object("write.o", "write.s"), ld_command, LINKFLAGS="-N")
+
+# objcopy_command = "$OBJCOPY -O binary $SOURCES $TARGET"
+# arm_env.Command("write.bin", write_x, objcopy_command)
+
+go_arm_command = "GOARCH=arm go build -o $TARGET $SOURCES"
+Command("hello.arm", "hello.go", go_arm_command)
