@@ -1,0 +1,18 @@
+def ProgramNoObj(target, sources, **d):
+    gcc_command = "$CC -o $TARGET $CCFLAGS $SOURCES"
+    return Command(target, sources, gcc_command, **d)
+
+
+ProgramNoObj("basicheap", "basicheap.c")
+ProgramNoObj("unlink_exploit", "unlink_exploit.c")
+ProgramNoObj("unlink_exploit_dbg", "unlink_exploit.c", CCFLAGS="-g")
+ProgramNoObj("shrinking_free_chunks", "shrinking_free_chunks.c")
+ProgramNoObj("shrinking_free_chunks_dbg", "shrinking_free_chunks.c", CCFLAGS="-g")
+ProgramNoObj("house_of_spirit", "house_of_spirit.c")
+ProgramNoObj("house_of_spirit_dbg", "house_of_spirit.c", CCFLAGS="-g")
+ProgramNoObj("house_of_lore", "house_of_lore.c")
+ProgramNoObj("house_of_lore_dbg", "house_of_lore.c", CCFLAGS="-g")
+ProgramNoObj("house_of_force", "house_of_force.c")
+ProgramNoObj("house_of_force_dbg", "house_of_force.c", CCFLAGS="-g")
+ProgramNoObj("house_of_einherjar", "house_of_einherjar.c")
+ProgramNoObj("house_of_einherjar_dbg", "house_of_einherjar.c", CCFLAGS="-g")

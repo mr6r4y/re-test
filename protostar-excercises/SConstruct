@@ -1,0 +1,7 @@
+gcc_command = "$CC -o $TARGET $CCFLAGS $SOURCES"
+
+Program("heap0.c")
+Program("heap1.c")
+Program("heap2.c")
+Command("heap2-dbg", "heap2.c", gcc_command, CCFLAGS="-g")
+Program("heap3.c")

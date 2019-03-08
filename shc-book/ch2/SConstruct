@@ -1,0 +1,22 @@
+def ProgramNoObj(target, sources, **d):
+    gcc_command = "$CC -o $TARGET $CCFLAGS $SOURCES"
+    return Command(target, sources, gcc_command, **d)
+
+
+def Execstack(target, sources):
+    return Command(target, sources, "cp $SOURCES $TARGET && execstack -s $TARGET")
+
+
+ProgramNoObj("overflow.x86", "overflow.c", CCFLAGS="-m32")
+ProgramNoObj("overflow.x64", "overflow.c")
+ProgramNoObj("overflow.x86.no", "overflow.c", CCFLAGS="-m32 -fno-stack-protector -mpreferred-stack-boundary=2")
+Execstack("overflow.x86.no.sx", "overflow.x86.no")
+ProgramNoObj("overflow.x64.no.nx", "overflow.c", CCFLAGS="-fno-stack-protector -mpreferred-stack-boundary=2")
+Execstack("overflow.x64.no", "overflow.x64.no.nx")
+ProgramNoObj("victim.x86", "victim.c", CCFLAGS="-m32")
+ProgramNoObj("victim.x64", "victim.c")
+ProgramNoObj("victim.x86.no.nx", "victim.c", CCFLAGS="-m32 -fno-stack-protector -mpreferred-stack-boundary=2")
+Execstack("victim.x86.no", "victim.x86.no.nx")
+ProgramNoObj("victim.x64.no.nx", "victim.c", CCFLAGS="-fno-stack-protector -mpreferred-stack-boundary=2")
+Execstack("victim.x64.no", "victim.x64.no.nx")
+ProgramNoObj("find_start", "find_start.c")

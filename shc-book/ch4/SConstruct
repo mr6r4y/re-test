@@ -1,0 +1,16 @@
+def ProgramNoObj(target, sources, **d):
+    gcc_command = "$CC -o $TARGET $CCFLAGS $SOURCES"
+    return Command(target, sources, gcc_command, **d)
+
+
+def Execstack(target, sources):
+    return Command(target, sources, "cp $SOURCES $TARGET && execstack -s $TARGET")
+
+
+ProgramNoObj("fs1", "fs1.c")
+ProgramNoObj("fs2", "fs2.c")
+ProgramNoObj("fs3", "fs3.c")
+ProgramNoObj("fs2_wr", "fs2.c", CCFLAGS="--static -g -Wl,--omagic")
+ProgramNoObj("fs3_wr", "fs3.c", CCFLAGS="--static -g -Wl,--omagic")
+ProgramNoObj("ps_fs3", "protostar_format4.c")
+ProgramNoObj("test_printf_1", "test_printf_1.c")
