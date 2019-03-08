@@ -26,7 +26,9 @@ hook_x86: hook.c
 
 start_nostdlib: start_nostdlib.c
 	gcc -nostdlib -o $@ $^
-	strip $@
+
+start_nostdlib_strip: start_nostdlib
+	strip -o $@ $^
 
 scan_x86: scan.c
 	gcc -m32 -o $@ $^
