@@ -1,1 +1,2 @@
 Program("ch13-ex3.c")
+Program("ch13-ex6.c")
