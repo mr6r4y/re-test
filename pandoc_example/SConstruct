@@ -1,0 +1,18 @@
+import os
+
+
+def Pandoc(target, sources, **d):
+    pandoc_command = "pandoc $SOURCES --listings --toc --include-in-header titlesec.tex --toc-depth=5 -o $TARGET"
+    return Command(target, sources, pandoc_command, **d)
+
+
+SConscript('diags/SConstruct')
+# TO-DO: Fix building diag/
+# Currently using
+#     $  diagrams build diags/ && scons
+
+# TO-DO: Make a Builder to handle extentions automatically:
+# Ref: https://scons.org/doc/1.0.0/HTML/scons-user/x3553.html
+# Ref: https://scons.org/doc/2.3.0/HTML/scons-user/x496.html
+
+Pandoc("test.pdf", "test.md")

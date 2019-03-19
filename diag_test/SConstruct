@@ -1,0 +1,6 @@
+mscgen_command = "mscgen -T png -o $TARGET $SOURCES"
+
+Command("t1.png", "t1.msc", mscgen_command)
+Command("t2.png", "t2.msc", mscgen_command)
+Command("t3.png", "t3.msc", mscgen_command)
+Command("t4.png", "t4.msc", mscgen_command)

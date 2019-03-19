@@ -1,0 +1,31 @@
+% Clear the page after TOC
+\usepackage{sectsty} \sectionfont{\clearpage}
+
+% Fix the appearance of figures
+\usepackage{float}
+\floatplacement{figure}{H}
+
+% Make available the two Unicode characters
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+\usepackage{newunicodechar}
+\newunicodechar{✓}{\ding{51}}
+\newunicodechar{✗}{\ding{55}}
+
+
+% Make URL color blue
+\usepackage{xcolor}
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+
+% Set smaller font for verbatim text
+% by using the `listings` package from command line
+\lstset {
+    basicstyle=\fontsize{8}{10}\fontencoding{T1}\ttfamily, 
+    keepspaces=true, 
+    showspaces=false, 
+    showstringspaces=false, 
+    breaklines=true, 
+    frame=tb
+}
