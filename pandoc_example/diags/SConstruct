@@ -1,20 +1,17 @@
 import os
-env = Environment(ENV = os.environ)
-
-def Seq2SVG(target, sources, **d):
-    c = "diagrams sequence $SOURCES $TARGET"
-    return env.Command(target, sources, c, **d)
 
 
-def SVG2PNG(target, sources, **d):
-    c = "inkscape -z -e $TARGET -w 1000 $SOURCES"
-    return env.Command(target, sources, c, **d)
+Seq2SVGBuilder = Builder(action="diagrams sequence $SOURCES $TARGET",
+                         suffix=".svg",
+                         src_suffix=".sequence")
+SVG2PNGBuilder = Builder(action="inkscape -z -e $TARGET -w 1000 $SOURCES",
+                         suffix=".png",
+                         src_suffix=".svg")
+
+env = Environment(BUILDERS={"Seq2SVG": Seq2SVGBuilder,
+                            "SVG2PNG": SVG2PNGBuilder}, 
+                  ENV=os.environ)
 
 
-def Seq2PNG(target, sources, **d):
-    t_s = sources + ".svg"
-    return SVG2PNG(target, Seq2SVG(t_s, sources))
-
-# TO-DO: Fix Seq2SVG
-# Fixed: By propagating the whole ENV
-Seq2PNG("d1.png", "d1.sequence")
+for seq in Glob("*.sequence"):
+    env.SVG2PNG(env.Seq2SVG(seq))
