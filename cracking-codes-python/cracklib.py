@@ -9,6 +9,8 @@ import math
 import random
 from functools import reduce
 import enchant
+from Crypto.Util.number import inverse
+import random
 
 
 BG_ALPHABET = "абвгдежзийклмнопрстуфцчшщъьюя"
@@ -167,7 +169,7 @@ class AffineError(Exception):
     pass
 
 
-class Affine(object):
+class Affine:
     """Affine cipher class
 
     Handles encryption, decryption and key generation.
@@ -213,7 +215,8 @@ class Affine(object):
             raise AffineError("Weak key")
 
         k1, k2 = self._split_key(key)
-        k1_inverse = search_modinv(k1, self.alphabet_len)
+        # k1_inverse = modinv(k1, self.alphabet_len)
+        k1_inverse = inverse(k1, self.alphabet_len)
 
         msg = []
 
@@ -251,3 +254,40 @@ def crack_affine(cipher, alphabet):
             keys.append(i)
 
     return keys
+
+
+class SimpleSubstitutionError(Exception):
+    pass
+
+
+class SimpleSubstitutionCipher:
+    def __init__(self, alphabet):
+        if sorted(list(set(alphabet))) != sorted(alphabet):
+            raise SimpleSubstitutionError("alphabet is invalid: %s" % alphabet)
+
+        self.alphabet = alphabet
+
+    def _check_key(self, key):
+        return sorted(self.alphabet) == sorted(key)
+
+    @staticmethod
+    def _translate(message, chars_a, chars_b):
+        return "".join([(chars_b[chars_a.find(m)] if m in chars_a else m) for m in message])
+
+    def encrypt(self, message, key):
+        if not self._check_key(key):
+            raise SimpleSubstitutionError("key is invalid")
+
+        return self._translate(message, self.alphabet, key)
+
+    def decrypt(self, message, key):
+        if not self._check_key(key):
+            raise SimpleSubstitutionError("key is invalid")
+
+        return self._translate(message, key, self.alphabet)
+
+    def random_key(self):
+        key = list(self.alphabet)
+        random.shuffle(key)
+
+        return ''.join(key)
