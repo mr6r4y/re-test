@@ -1,6 +1,36 @@
-mscgen_command = "mscgen -T png -o $TARGET $SOURCES"
+import os
 
-Command("t1.png", "t1.msc", mscgen_command)
-Command("t2.png", "t2.msc", mscgen_command)
-Command("t3.png", "t3.msc", mscgen_command)
-Command("t4.png", "t4.msc", mscgen_command)
+
+Seq2SVGBuilder = Builder(action="diagrams sequence $SOURCES $TARGET",
+                         suffix=".svg",
+                         src_suffix=".sequence")
+SVG2PNGBuilder = Builder(action="inkscape -z -e $TARGET -w 1000 $SOURCES",
+                         suffix=".png",
+                         src_suffix=".svg")
+
+mscgen_command = "mscgen -T png -o $TARGET $SOURCES"
+MscgenBuilder = Builder(action=mscgen_command,
+                        suffix=".png",
+                        src_suffix=".msc")
+
+plantuml_command = "plantuml $SOURCES"
+PlantumlBuilder = Builder(action=plantuml_command,
+                          suffix=".png",
+                          src_suffix=".puml")
+
+
+env = Environment(BUILDERS={"Seq2SVG": Seq2SVGBuilder,
+                            "SVG2PNG": SVG2PNGBuilder,
+                            "Mscgen": MscgenBuilder,
+                            "Plantuml": PlantumlBuilder},
+                  ENV=os.environ)
+
+
+for seq in Glob("*.sequence"):
+    env.SVG2PNG(env.Seq2SVG(seq))
+
+for msc in Glob("*.msc"):
+    env.Mscgen(msc)
+
+for puml in Glob("*.puml"):
+    env.Plantuml(puml)
