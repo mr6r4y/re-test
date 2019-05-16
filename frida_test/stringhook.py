@@ -11,8 +11,4 @@ var f = new NativeFunction(ptr("%s"), 'int', ['pointer']);
 f(st);
 """ % int(sys.argv[1], 16))
 
-def on_message(message, data):
-    print(message)
-
-script.on('message', on_message)
 script.load()
