@@ -1,3 +1,4 @@
 Program("hello.c", CCFLAGS="-Wall")
 Program("hi.c", CCFLAGS="-Wall")
 Program("client.c", CCFLAGS="-Wall")
+Program("fstat-test.c", CCFLAGS="-Wall")
