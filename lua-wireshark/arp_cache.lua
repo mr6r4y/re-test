@@ -23,8 +23,14 @@ do
             -- explicity checking to see arpip does not equal nil
             if tostring(arp_ip) ~= "nil" then
                 -- if it isn't nil then we pull the ARP source IP and map it to the MAC address in the Ethernet Source field
+                if not arp_cache[tostring(arp_ip)] then
+                    print("[*] (" .. tostring(arp_ip) .. ") at " .. tostring(eth_src))
+                end
                 arp_cache[tostring(arp_ip)] = tostring(eth_src)
             else
+                if not arp_cache[tostring(ip_src)] then
+                    print("[*] (" .. tostring(ip_src) .. ") at " .. tostring(eth_src))
+                end
                 -- if the ARP source IP field is nil then we get
                 -- access to the packet source via pinfo which is how we access columns
                 -- and map it to the Ethernet Source field (MAC address)
@@ -42,10 +48,10 @@ do
         -- define the draw function to print out our created arp cache.
         function tap.draw()
             -- iterate over the keys/values within our arp_cache table and print out the IP to MAC mapping
-            for ip,mac in pairs(arp_cache) do
-                print("[*] (" .. ip .. ") at " .. mac)
-                --end of for block
-            end
+            -- for ip,mac in pairs(arp_cache) do
+            --     print("[*] (" .. ip .. ") at " .. mac)
+            --end of for block
+            -- end
         --end of tap.draw()
         end
     --end of init_listener()
