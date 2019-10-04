@@ -4,21 +4,36 @@ import os
 Seq2SVGBuilder = Builder(action="diagrams sequence $SOURCES $TARGET",
                          suffix=".svg",
                          src_suffix=".sequence")
-Flow2SVGBuilder = Builder(action="diagrams flowchart $SOURCES $TARGET",
-                          suffix=".svg",
-                          src_suffix=".flowchart")
 SVG2PNGBuilder = Builder(action="inkscape -z -e $TARGET -w 1000 $SOURCES",
                          suffix=".png",
                          src_suffix=".svg")
 
+mscgen_command = "mscgen -T png -o $TARGET $SOURCES"
+MscgenBuilder = Builder(action=mscgen_command,
+                        suffix=".png",
+                        src_suffix=".msc")
+
+plantuml_command = "plantuml $SOURCES"
+PlantumlBuilder = Builder(action=plantuml_command,
+                          suffix=".png",
+                          src_suffix=".puml")
+
+
 env = Environment(BUILDERS={"Seq2SVG": Seq2SVGBuilder,
                             "SVG2PNG": SVG2PNGBuilder,
-                            "Flow2SVG": Flow2SVGBuilder}, 
+                            "Mscgen": MscgenBuilder,
+                            "Plantuml": PlantumlBuilder},
                   ENV=os.environ)
 
 
 for seq in Glob("*.sequence"):
     env.SVG2PNG(env.Seq2SVG(seq))
 
-for fl in Glob("*.flowchart"):
-    env.SVG2PNG(env.Flow2SVG(fl))
+for msc in Glob("*.msc"):
+    env.Mscgen(msc)
+
+for puml in Glob("*.puml"):
+    env.Plantuml(puml)
+
+for puml in Glob("*.wsd"):
+    env.Plantuml(puml)

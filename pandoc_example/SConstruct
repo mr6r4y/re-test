@@ -1,9 +1,19 @@
 import os
 
-
-PandocBuilder = Builder(action = "pandoc $SOURCES --listings --toc --toc-depth=5 --include-in-header ./titlesec.tex -o $TARGET",
-                          suffix = ".pdf",
-                          src_suffix = ".md")
+# pandoc_command = "pandoc $SOURCES --latex-engine=xelatex --listings --toc --toc-depth=5 --include-in-header ./docbuild/titlesec.tex -o $TARGET"
+# pandoc_command = "pandoc $SOURCES --listings --toc --toc-depth=5 --include-in-header ./docbuild/titlesec.tex -o $TARGET"
+pandoc_command = "pandoc $SOURCES \
+    -s \
+    --smart \
+    --mathjax \
+    --listings \
+    --highlight-style pygments \
+    --filter ./docbuild/scripts/graphviz.py \
+    --include-in-header ./docbuild/titlesec.tex \
+    -o $TARGET"
+PandocBuilder = Builder(action=pandoc_command,
+                        suffix=".pdf",
+                        src_suffix=".md")
 
 
 env = Environment(BUILDERS={"Pandoc": PandocBuilder}, 
