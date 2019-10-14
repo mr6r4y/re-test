@@ -8,3 +8,262 @@ digraph foo {
   node1 -> node2 -> node3
 }
 @enduml
+
+@startuml
+digraph D {
+
+  node [shape=plaintext fontname="Sans serif" fontsize="8"];
+
+  task_menu [ label=<
+   <table border="1" cellborder="0" cellspacing="1">
+     <tr><td align="left"><b>Task 1</b></td></tr>
+     <tr><td align="left">Choose Menu</td></tr>
+     <tr><td align="left"><font color="darkgreen">done</font></td></tr>
+   </table>>];
+
+  task_ingredients [ label=<
+   <table border="1" cellborder="0" cellspacing="1">
+     <tr><td align="left"><b>Task 2</b></td></tr>
+     <tr><td align="left">Buy ingredients</td></tr>
+     <tr><td align="left"><font color="darkgreen">done</font></td></tr>
+   </table>>];
+
+  task_invitation [ label=<
+   <table border="1" cellborder="0" cellspacing="1">
+     <tr><td align="left"><b>Task 4</b></td></tr>
+     <tr><td align="left">Send invitation</td></tr>
+     <tr><td align="left"><font color="darkgreen">done</font></td></tr>
+   </table>>];
+
+  task_cook [ label=<
+   <table border="1" cellborder="0" cellspacing="1">
+     <tr><td align="left"><b>Task 5</b></td></tr>
+     <tr><td align="left">Cook</td></tr>
+     <tr><td align="left"><font color="red">todo</font></td></tr>
+   </table>>];
+
+  task_table[ label=<
+   <table border="1" cellborder="0" cellspacing="1">
+     <tr><td align="left"><b>Task 3</b></td></tr>
+     <tr><td align="left">Lay table</td></tr>
+     <tr><td align="left"><font color="red">todo</font></td></tr>
+   </table>>];
+
+  task_eat[ label=<
+   <table border="1" cellborder="0" cellspacing="1">
+     <tr><td align="left"><b>Task 6</b></td></tr>
+     <tr><td align="left">Eat</td></tr>
+     <tr><td align="left"><font color="red">todo</font></td></tr>
+   </table>>];
+
+
+  task_menu        -> task_ingredients;
+  task_ingredients -> task_cook;
+  task_invitation  -> task_cook;
+  task_table       -> task_eat;
+  task_cook        -> task_eat;
+
+}
+
+@enduml
+
+@startuml
+digraph H {
+
+  parent [
+   shape=plaintext
+   label=<
+     <table border='1' cellborder='1'>
+       <tr><td colspan="3">The foo, the bar and the baz</td></tr>
+       <tr><td port='port_one'>First port</td><td port='port_two'>Second port</td><td port='port_three'>Third port</td></tr>
+     </table>
+  >];
+
+  child_one [
+   shape=plaintext
+   label=<
+     <table border='1' cellborder='0'>
+       <tr><td>1</td></tr>
+     </table>
+  >];
+
+  child_two [
+   shape=plaintext
+   label=<
+     <table border='1' cellborder='0'>
+       <tr><td>2</td></tr>
+     </table>
+  >];
+
+  child_three [
+   shape=plaintext
+   label=<
+     <table border='1' cellborder='0'>
+       <tr><td>3</td></tr>
+     </table>
+  >];
+
+  parent:port_one   -> child_one;
+  parent:port_two   -> child_two;
+  parent:port_three -> child_three;
+
+}
+@enduml
+
+@startuml
+digraph D {
+
+  subgraph cluster_p {
+    label = "Parent";
+
+    subgraph cluster_c1 {
+      label = "Child one";
+      a;
+
+      subgraph cluster_gc_1 {
+        label = "Grand-Child one";
+         b;
+      }
+      subgraph cluster_gc_2 {
+        label = "Grand-Child two";
+          c;
+          d;
+      }
+
+    }
+
+    subgraph cluster_c2 {
+      label = "Child two";
+      e;
+    }
+  }
+}
+@enduml
+
+@startuml
+digraph Q {
+
+  node [shape=record];
+
+
+  nd_1   [label = "Node 1"];
+  nd_2   [label = "Node 2"];
+  nd_3_a [label = "Above Right Node 3"];
+  nd_3_l [label = "Left of Node 3"];
+  nd_3   [label = "Node 3"];
+  nd_3_r [label = "Right of Node 3"];
+  nd_4   [label = "Node 4"];
+
+
+  nd_3_a -> nd_3_r;
+  nd_1 -> nd_2 -> nd_3 -> nd_4;
+
+  subgraph cluster_R {
+
+    {rank=same nd_3_l nd_3 nd_3_r}
+
+    nd_3_l -> nd_3 -> nd_3_r [color=grey arrowhead=none];
+
+  }
+
+}
+@enduml
+
+@startuml
+digraph R {
+
+  node [shape=record];
+
+  { rank=same rA sA tA }
+  { rank=same uB vB wB }
+
+
+   rA -> sA;
+   sA -> vB;
+   t  -> rA;
+   uB -> vB;
+   wB -> u;
+   wB -> tA;
+
+}
+@enduml
+
+@startuml
+digraph D {
+
+  A -> {B, C, D} -> {F}
+
+}
+@enduml
+
+@startuml
+digraph L {
+
+  node [shape=record fontname=Arial];
+
+  a  [label="one\ltwo three\lfour five six seven\l"]
+  b  [label="one\ntwo three\nfour five six seven"]
+  c  [label="one\rtwo three\rfour five six seven\r"]
+
+  a -> b -> c
+
+}
+@enduml
+
+@startuml
+digraph D {
+
+  A [shape=diamond]
+  B [shape=box]
+  C [shape=circle]
+
+  A -> B [style=dashed, color=grey]
+  A -> C [color="black:invis:black"]
+  A -> D [penwidth=5, arrowhead=none]
+
+}
+@enduml
+
+@startuml
+digraph G {
+  A [group=g1]
+  {rank = same; B[group=g2]; C[group=g3]}
+  D [group=g1]
+  {rank = same; E[group=g2]; F[group=g3]}
+
+  A -> B [label="2", weight=2]
+  A -> C [label="0", style=dashed, weight=2]
+  B -> C [label="0", style=dashed, weight=2]
+  B -> D [label="2", style=dashed, weight=2]
+  C -> D [label="0", weight=2]
+  D -> E [label="1", style=dashed, weight=2]
+  D -> F [label="0", weight=2]
+  E -> F [label="0", weight=2]
+  F -> A
+
+  edge[style=invis];
+  A -> D
+  B -> E
+  C -> F
+}
+@enduml
+
+@startuml
+
+digraph structs {
+    rankdir = LR;
+    node [shape=record];
+
+    hashTable [label="<f0>0|<f1>1|<f2>2|<f3>3|<f4>4|<f5>5|<f6>6|<f7>7|<f8>8"];
+    node_1_0 [label="<f0> one|<f1> two |<f2> three"];
+    node_1_1 [label="<f0> un |<f1> deux|<f2> trois"];
+    struct3 [label="<f0> einz|<f1> swei|<f2> drei"];
+
+    {rank = same; node_1_0; node_1_1; struct3; }
+
+    "hashTable":f1 -> "node_1_0":f0;
+    "node_1_0":f2 -> "node_1_1":f0;
+    "hashTable":f4 -> "struct3":f0;
+}
+
+@enduml
