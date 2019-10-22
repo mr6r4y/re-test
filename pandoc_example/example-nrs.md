@@ -1,5 +1,6 @@
 ---
 title: "http://www.nrstickley.com/pandoc-markdown/"
+output: pdf_document
 ---
 
 # Major Section Heading

@@ -1,3 +1,10 @@
+---
+title: "Habits"
+author: John Doe
+date: March 22, 2005
+output: word_document
+---
+
 # Test vscode-markdown-enhanced
 
 ## Superscript
@@ -19,6 +26,7 @@ Content [^1]
 ```puml
 @startdot
 digraph G {
+    A [label="AAA", URL="https://google.com"]
     A -> B
 }
 @enddot
@@ -77,6 +85,34 @@ First Header | Second Header
 ------------ | -------------
 Content from cell 1 | Content from cell 2
 Content in the first column | Content in the second column
+
+# Blockquote
+
+As Kanye West said:
+
+> We're living the future so
+> the present is our past.
+
+# Horizontal Rule
+
+Three or more...
+
+---
+
+Hyphens
+
+***
+
+Asterisks
+
+___
+
+Underscores
+
+# Emoji
+
+:smile:
+:fa-car:
 
 # Abbrreviations
 
