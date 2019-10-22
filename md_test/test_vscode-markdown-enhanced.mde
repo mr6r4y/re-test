@@ -1,0 +1,87 @@
+# Test vscode-markdown-enhanced
+
+## Superscript
+
+30^th^
+
+## Subscript
+
+H~2~O
+
+## Footnotes
+
+Content [^1]
+
+[^1]: Hi! This is a footnote
+
+## PlantUML
+
+```puml
+@startdot
+digraph G {
+    A -> B
+}
+@enddot
+```
+
+# Mermaid
+
+```mermaid
+graph LR
+    Start --> Stop
+```
+
+```mermaid
+gantt
+    title A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+    section Section
+    A task           :a1, 2014-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2014-01-12  , 12d
+    another task      : 24d
+```
+
+## Marked
+
+==marked==
+
+## CriticMarkup
+
+Lorem ipsum dolor sit amet. {>> This is a comment <<}
+Lorem ipsum dolor{++ sit++} amet
+Lorem {~~hipsum~>ipsum~~} dolor sit amet
+Lorem{-- ipsum--} dolor sit amet
+
+Don't go around saying{-- to people that--} the world owes you a living. The world owes you nothing. It was here first. {~~One~>Only one~~} thing is impossible for God: To find {++any++} sense in any copyright law on the planet. {==Truth is stranger than fiction==}{>>strange but true<<}, but it is because Fiction is obliged to stick to possibilities; Truth isn’t.
+
+## Code
+
+```javascript {.line-numbers}
+function add(x, y) {
+  return x + y
+}
+```
+
+# Task lists
+
+- [x] @mentions, #refs, [links](), **formatting**, and <del>tags</del> supported
+- [x] list syntax required (any unordered or ordered list supported)
+- [x] this is a complete item
+- [ ] this is an incomplete item
+
+# Tables
+
+First Header | Second Header
+------------ | -------------
+Content from cell 1 | Content from cell 2
+Content in the first column | Content in the second column
+
+# Abbrreviations
+
+*[HTML]: Hyper Text Markup Language
+*[W3C]:  World Wide Web Consortium
+
+W3C here
+HTML here
