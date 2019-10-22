@@ -1,0 +1,48 @@
+graph G {
+    label="RNC protocols and interfaces for user data (user plane)"
+    rankdir = LR;
+
+    node [shape=box]
+    msc [label=MSC]
+    sgsn [label=SGSN]
+    rnc1 [label=RNC]
+    rnc2 [label=RNC]
+    nodeb [label="Node-B"]
+
+    node [margin=0; shape=plaintext]
+
+    iucs [ label=<
+   <table border="1" cellborder="1" cellspacing="0">
+     <tr><td align="center"><b>Iu(cs)</b></td></tr>
+     <tr><td align="left">Iu-FP</td></tr>
+     <tr><td align="left">AAL2 / IP</td></tr>
+   </table>>];
+
+    iub1 [ label=<
+   <table border="1" cellborder="1" cellspacing="0">
+     <tr><td align="center"><b>Iub</b></td></tr>
+     <tr><td align="left">Iub-FP</td></tr>
+     <tr><td align="left">AAL2 / IP</td></tr>
+   </table>>];
+
+    iub2 [label="Iub"];
+
+    iups [ label=<
+   <table border="1" cellborder="1" cellspacing="0">
+     <tr><td align="center"><b>Iu(ps)</b></td></tr>
+     <tr><td align="left">Iu-FP</td></tr>
+     <tr><td align="left">GTP</td></tr>
+     <tr><td align="left">UDP/IP</td></tr>
+     <tr><td align="left">AAL5 / IP</td></tr>
+   </table>>];
+
+   iur [ label=<
+   <table border="1" cellborder="1" cellspacing="0">
+     <tr><td align="center"><b>Iur</b></td></tr>
+     <tr><td align="left">Iu-FP</td></tr>
+     <tr><td align="left">AAL2 / IP</td></tr>
+   </table>>];
+
+    msc -- iucs -- rnc1 -- iups -- sgsn
+    nodeb -- iub1 -- rnc1 -- iur -- rnc2 -- iub2
+}
